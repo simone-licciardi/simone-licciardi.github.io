@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script type="text/javascript"
+    src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Post 1</title>
+    <link rel="stylesheet" href="../styles/style.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>Blog Post 1</h1>
+        </div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="../bio.html">Bio</a></li>
+            <li><a href="../cv.html">CV</a></li>
+            <li><a href="../thoughts.html">Thoughts</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <h2>How do you measure (& use) information?</h2>
+        <p>
+            It is very well known that, in information theory, how much information is associated with discovering the outcome of a random variable \(X\) is proportional to its entropy. But everywhere I looked, I found justifications, rather than why is so.
+        </p>
+        <p>
+            Here is my interpretation then. Suppose you are not looking at \(X\) while you friend Luca is. If you ask him the outcome he has witnessed, he will report it in one of many different ways: he could joke about it, be misterious, or go straight to the point. Either way, all of these messages contain the same <i>quantity</i> of (relevant) information: crucially, how much information is in the message can then be though as the minimal quantity (of letters, let's say) needed for that message to be intelligible.
+        </p>
+        <p>
+            Now, given an alphabeth and a sensible dictionary to communicate the outcome of \(X\) (that is, void of repetitions and such that to all possible words an \(x_i \in \mathbb{X}\) is linked), one studies its mean length: suppose \(l(x_i)\) is the length of the word linked to \(x_i\) and \(p\) the PMF, then this would be \(\mathbb{E}\left[N(X)\right] = \sum_i p(x_i) N(x_i)\). Then, by the discussion above, the expected amount of information that we gain on learning the outcome of \(X\) is exactly the minimum mean lenght across all dictionaries: but <a href="https://colah.github.io/posts/2015-09-Visual-Information/">that is the information entropy</a> of \(X\), namely<div>\[H(X) = \mathbb{E}\left[ -\log p(X) \right]= - \sum_i p(x_i) \log p(x_i). \]</div>
+        </p>
+        <p>
+            While this discussion may seem abstract, it has found great applications in statistics, in techniques such as KL divergence and  the Maximum Entropy Principle. From a statistical point of view, we are interested in studying how <i>unpredictable</i> \(X\) is. 
+        </p>
+        <p>
+            Intuitively, that \(X\) is unpredictable means that we have information a priori,that is we can assume less information about its outcome before seeing it. Since despite how unpredictable \(X\) is, after learning its value we end up with same quantity of information (the outcome), I argue that  that assuming less information a priori is equivalent to learning more a posteriori: that is, learning the outcome is more informative. But this is quantified by \(H(X)\)! So, by comparing entropies of \(X\) and \(Y\) we can understand which one is more unpredictable. Statistical applications of entropy follow from this.
+        </p>
+        <p class="date">19 August, 2024</p>
+    </main>
+
+    <section class="additional-info">
+        <div class="additional-info-content">
+            <section class="bibliography">
+                <h3>Further Readings</h3>
+                <ul>
+                    <li><a href="https://colah.github.io/posts/2015-09-Visual-Information/">Visual Information Theory, colah's blog</a></li>
+                    <li><a href="https://en.wikipedia.org/wiki/Principle_of_maximum_entropy"> Maximum Entropy Principle
+                    </a></li>
+                    <li><a href="https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence"> Kullback-Leibler divergence
+                    </a></li>
+                </ul>
+            </section>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 The Licciardi Lens</p>
+    </footer>
+</body>
+</html>

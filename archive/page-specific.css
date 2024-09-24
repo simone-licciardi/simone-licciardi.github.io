@@ -1,0 +1,47 @@
+/* Blog post styles */
+.blog-post {
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 1rem;
+}
+
+.post-meta {
+    color: #666;
+    font-style: italic;
+}
+
+.tags {
+    color: #007bff;
+}
+
+/* Thoughts page styles */
+.thoughts-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.thought {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+    padding: 1rem;
+    width: calc(50% - 0.5rem);
+}
+
+/* CV page styles */
+#cv h2 {
+    border-bottom: 2px solid #333;
+    padding-bottom: 0.5rem;
+}
+
+#cv h3 {
+    color: #007bff;
+}
+
+/* Bio page styles */
+.profile-image {
+    float: right;
+    margin: 0 0 1rem 1rem;
+    border-radius: 50%;
+}

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Post 1</title>
+    <link rel="stylesheet" href="../styles/style.css">
+    <script type="text/javascript"
+    src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>On infinite stochastic independence</h1>
+        </div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="../bio.html">Bio</a></li>
+            <li><a href="../cv.html">CV</a></li>
+            <li><a href="../thoughts.html">Thoughts</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <h2>On infinite stochastic independence</h2>
+        <p>
+            What follows sums up an evening, a night, a morning with <strong>Prof. M. Gregoratti (PoliMI)</strong> and too many messages.
+        </p>
+        <h3>Main matter</h3>
+        <p>
+            <div class="math-definition">
+                <div class="math-definition-title">Definition (Infinite rv's independence)</div>
+                <div class="math-definition-content">
+                    Let \(\{X_\alpha\}_{\alpha \in \mathcal{A}}\) be a (possibly uncountably infinite) set of random variables defined on \((\Omega, \mathcal{F}, \mathbb{P})\) and into \((\mathbb{R},\mathcal{B})\). The set is said to be <b>independent</b> if for any finite subset \(\mathcal{J} \subset \mathcal{A}\) and for any choice of borel sets \(\{A_i\}_{i\in\mathcal{J}}\), we have:
+
+                    $$
+                    \mathbb{P}\left((X_{i})_{i\in\mathcal{J}}\in\times_{i\in\mathcal{J}} A_i\right) = \mathbb{P}\left(\bigcap \limits_{i\in\mathcal{J}}(X_{i}\in A_i)\right) = \prod\limits_{i\in\mathcal{J}} \mathbb{P}(X_{i} \in A_i).
+                    $$                
+                </div>
+            </div>
+         
+            In words, an infinite family of rv is independent if it checks out the finite definition for any finite case. While the latter is <em>trivially necessary</em> for our intuition behind independence, it surely doesn't seem <em>sufficient</em>.
+        </p>    
+        <p>
+            And that is because, <strong>this definition sucks skunk junk</strong>, and was not written for humans.
+        </p>
+        <p>
+            <strong>First:</strong> why should we check the whole product? Independence is about "knowing something" does not inform on "knowing something else": just checking
+            $$
+            \mathbb{P}\left( (X_{i})\in\times A_i,(X_{j})\in\times B_j \right) =\mathbb{P}\left( (X_{i})\in\times A_i \right)\mathbb{P}\left((X_{j})\in\times B_j \right)
+            $$
+            for all (finite) combinations of rv and borel sets should be enough. And indeed it is <em>equivalent</em> to the definition above, with the added benefit of being more insightful. The proof is trivial, by induction.
+        </p>
+        <p>
+            <strong>Second:</strong> why stop at finite combinations? This now extends to the countable case: the key is the <em>continuity of the probability measure</em>. Consider a sequence (that is, countable set) \(\left(X_i\right)\), and two of its subsequences \(\left(X^1_1\right)\), \(\left(X_i^2\right)\). We want to show that the above definition implies that 
+            $$
+            \mathbb{P}\left( (X_{i}^1)\in\times A_i,(X_{j}^2)\in\times B_j \right) =\mathbb{P}\left( (X_{i}^1)\in\times A_i \right)\mathbb{P}((X_{j}^2)\in\times B_j ),
+            $$
+            so that we can revise the definition, and include this infite checks as well. By definition of independence, the above holds if \(i\),\(j\) stop at some \(n\). If we take the limit in \(n\), then by continuity of measure (we are intersecting, so the sequence of events is monotone decreasing) we find the above equality.
+        </p>
+        <p>
+            So here is an improved (that is, equivalent but more explicit) version of the definition.
+            <div class="math-definition">
+                <div class="math-definition-title">Definition, revised (Infinite rv's independence)</div>
+                <div class="math-definition-content">
+                    Let \(\{X_\alpha\}_{\alpha \in \mathcal{A}}\) be a (possibly uncountably infinite) set of random variables defined on \((\Omega, \mathcal{F}, \mathbb{P})\) and into \((\mathbb{R},\mathcal{B})\). The set is said to be <b>independent</b> if for any two finite vectors or sequences \(\left(X^1_1\right)\), \(\left(X_i^2\right)\) and for any choice of borel sets \(\{A_i\}\) and \(\{B_i\}\), we have:
+
+                    $$
+                    \mathbb{P}\left( (X_{i}^1)\in\times A_i,(X_{j}^2)\in\times B_j \right) =\mathbb{P}\left( (X_{i}^1)\in\times A_i \right)\mathbb{P}((X_{j}^2)\in\times B_j ).
+                    $$                
+                </div>
+            </div>
+        </p>   
+
+        <h3>Beyond the Main Matter</h3>
+        <p>
+            What about uncountable infinites? There, the point is finer: since independence is basically defined on intersections, the problem is one of well-posedness. Consider for example a continuous stochastic process (a sequence of rv indexed on positive reals). Already a very innocent-looking set such as \(\{X_t \geq 0, \forall t \in \mathbb{R}_{+}\}\) is not a <em>countable</em> intersection, but uncountable: it doesn't even have to belong to the sigma-algebra (generated by the variables)! Here, results got sloppy in the discussion: bottom line is that <em>if</em> the two events are in the sigma-algebra <em>then</em> intuition is preserved.
+        </p>
+        <p>
+            So for example, if \(\{X_t\}_{t>0}\) are independent (as by the above defition), one has that events regarding \(t\in[0,1]\) and \(t\in[1,2]\) are independent: it does not include every case, but shows that in general in the uncountable case modellistically-wise intuition still works.
+        </p>
+
+        <h3>Linear Independence vs Stochastic Independence</h3> 
+        <p>
+            Interestingly, this discussion highlights the difference between <strong>stochastic independence</strong> and <strong>linear independence</strong>. They obviously belong to very different fields, but share (at first glance) the same structure: a (possibly infinite) family of vectors is linearly independent if for all choices of a finite subset of vectors, these are linearly independent in the finite sense (that is, for v the vector of \(n\) vectors and \(a \in \mathbb{R}^n\), \(a^t v = 0\) iff \(a = 0\)). 
+        </p>
+            
+        <p>
+            Otherwise put: <em>checks on finite subsets guarantee global independence</em>.
+        </p>
+        <p>
+            The parallelism doesn't hold and the following example, with the above results, shows this. Consider the (functional) vector set
+            $$
+            \left\{ \exp{x}, 1, x, x^2, \dots\right\}.
+            $$
+            It is linearly independent, despite the fact that
+            $$
+            \exp{x} - \sum^\infty \frac{1}{n!}x^n = 0,
+            $$
+            a counterintuitive behavious when considering the finite liner independence. 
+        </p>
+        <p>
+            To sum up, this finite-wise definition of independence is open to <em>counterintutive behaviour</em> when considering infinities. The above revised definition shows that stochastic independence is indeed <strong>very stable</strong> in this respect, confirming the well-posedness of the underlying modellistical intuition.
+        </p>    
+    </main>
+
+    <footer>
+        <p>&copy; 2024 The Licciardi Lens</p>
+    </footer>
+</body>
+</html>

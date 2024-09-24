@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script type="text/javascript"
+    src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Thoughts</title>
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>The Licciardi Lens</h1>
+        </div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="bio.html">Bio</a></li>
+            <li><a href="cv.html">CV</a></li>
+            <li><a href="thoughts.html">Thoughts</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <h2>Thoughts</h2>
+        <h3>On convexity</h3>
+        <p>
+            The convex combination of points \(x_1\) and \(x_2\) is, by definition, \(x(\theta)=\theta x_2 + (1-\theta) x_1\). Now, suppose \(x\) represents a
+            <span class="hover-text">production design
+                <span class="post-it">For example, the components may represent lengths and powers of an electronic board.</span>
+            </span>
+            . Then, \(x\) can be interpreted as the <i>mixture</i> of the charachteristics of \(x_1\) and \(x_2\). But if we rewrite this in a centered fashion, namely \(x(\theta)=x_1 + \theta (x_2-x_1)\), \(x\) can now be seen as a <i>base point</i> \(x_1\) (the original design) <i>being adapted to</i> \(x_2\): conceptually, we have established a preference between the two! Mathematically, this duality is useful in proofs to reduce dimensionality: see page 33 <a href="https://stanford.edu/~boyd/cvxbook/">here</a>.
+        </p>
+        <p>
+            Least-squares linear regression has a physical interpretation that is just lovely! Given a linear model for the data (a line), attach to each data point a spring and connect the other end to the line (orthogonally). Since elastic energy is proportional to the square of deviation, the only mechanically stable model is that of Least-squares. See <a href="https://joshualoftus.com/posts/2020-11-23-least-squares-as-springs/least-squares-as-springs.html">this post</a> for some awesome visualizations.
+        </p>
+        <p>
+            We can employ \(\mathcal{l}_1\)-norm approximation for outlier detection, provided the model is linear. Just run the regression, and compute the residuals: this will be both computationally cheap (it's an LP) and allow outliers (\(\mathcal{l}_1\) is the best convex choice for that). The largest residuals will indicate outliers.
+        </p>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 The Licciardi Lens</p>
+    </footer>
+</body>
+</html>

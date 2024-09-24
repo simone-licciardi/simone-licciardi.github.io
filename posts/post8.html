@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Post 1</title>
+    <link rel="stylesheet" href="../styles/style.css">
+    <script type="text/javascript"
+    src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>Convex Optimization, the takehome message</h1>
+        </div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="../bio.html">Bio</a></li>
+            <li><a href="../cv.html">CV</a></li>
+            <li><a href="../thoughts.html">Thoughts</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <h2>Convex Optimization, the takehome message</h2>
+
+        <h3>Chapter 6: Approximation and fitting</h3>
+        <p>
+            The main idea is that all the problems concerning the fit of a model over certain parameters data, can be recasted as a minimization problem of some kind of loss function (frequently, a norm).
+        </p>
+        <p>
+            The fundamental techniques are Norm Approximation (to tackle overdetermined problems),
+            \[
+                \text{minimize} \, \| Ax - b \|, 
+            \]
+            and Least Norm Approximation (for undetermined issues),
+            \[
+            \text{minimize} \, \| x \| \\
+            \text{subject to} \, Ax = b. 
+            \]
+            Some basic auxiliary techniques are regularization (which strikes a trade-off different desirable properties of the solution), and robustness (which ensures that the solution can be trusted even if data is not exact).
+        </p>
+        <p>
+            Generally, there are four broad interpretations (with respective applications) for these ideas:
+            <ul>
+                <li><b>Approximation</b> of data by a model (regression)</li>
+                <li><b>Estimation</b> of statistical parameters from data</li>
+                <li><b>Geometric</b> interpretation (to find the projection over a subspace, or distance...)</li>
+                <li><b>Design</b> choice and Control optimization on specifications</li>
+            </ul>
+        </p>
+        <p>
+            Strong applications lie in functional approximation.
+        </p>
+
+        <hr>
+
+        <p>
+            In Norm Approximation we deal with overdetermined problems, and try to minimize the missfit (or deviation) of the solution from a perfect fit. The unconstrained problem is
+            \[
+                \text{minimize} \, \| Ax - b \|.
+            \]
+        </p>
+        <p>
+            where \(x\) is a parameter choice, \(Ax\) is the result associated with that choice and \(b\) is the desired result. Finally, \(r = Ax-b\) is the residual, or deviation, and measures missfit of the result from the desired result, for each equation.
+            Optimality consists in minimizing the residual with respect to a relevant norm: this encompasses our idea of a "better solution" than another.
+        </p>
+        <p>
+            This can be declined in interpretations: as for approximation, we find the closest vector to \(b\) in \(\mathcal{R}(A)\); geometrically, we look for the projection of \(b\) over \(\mathcal{R}(A)\); in estimation, we find the parameters that minimize the deviation of the model from (noisy) data; finally, \(x\) can be thought as the design parameters that give the closest results to the desired results. In all of these examples, we had to keep in mind two things:
+            <ul>
+                <li><b>The result \(Ax\) of a choice is linear in \(x\).</b> This is not guaranteed: we are supposing that the statistical noise is additive, and that designs' results are linear in the design parameters.</li>
+                <li>We only cared about <b>minimizing deviation</b> (that Ax we a good approximation, namely). In this context, \(x\) was only an instrumetnal choice but optimality was evaluated by its effects.</li>
+            </ul>
+        </p>
+        <p>
+            As for norms, we can generalize loss-accounting by penalty functions: provided they are convex, the problem remains convex (and P-hard).
+        </p>
+        <p>
+            If we trust data or care about constraints not uniformly, we may insert weights on the residual components: just minimize \(W r\).
+        </p>
+        <p>
+            In general, least squares approximation with \(\mathcal{l}_2\) norm is a safe and very computable choice.
+            If sparsity is important, \(\mathcal{l}_1\) is the best possible choice, while minimax problems use \(\mathcal{l}_\infty\) - both LPs.
+            More advanced penalties such as Hubert function, Deadzone-linear, or \(\log\)-barrier can achieve more specific results.
+        </p>
+        <p>
+            In general, the choice of a penalty function depends on our understanding of which deviation is acceptable and which is harmful. In regression and estimation, moreover, one may choose norms so that <i>outliers</i> are allowed (linear tails are the most permissive convex choice - Hubert or \(\mathcal{l}_1\)) or removed (\(\log\)-barrier). Similarly, one may accept values below a <i>threshold</i> (Deadzone, or less Hubert, \(\log\)-barrier, \(\mathcal{l}_2\)) or require <i>sparsity</i> in \(x\), that is the most \(0\) residuals possible (linear tails are the strictest convex choice).
+        </p>
+        <p>
+            To project over a cone instead of a subspace, or have solutions that fulfill some constraints (powers must be positive, in designs), or restrict our search to a "trust ball" (say where the linear model approximates well the nonlinear model, or if we had a decent estimation already and want only to refine it with new data), we can add (convex) constraints.
+        </p>
+
+        <hr>
+
+        <p>
+            In Least-norm problems, we deal with underdetermined problems: in practice, an engineer should just ask for more data... unless other information about \(x\) is known! For example, whether it is sparse, or if being small with respect to some more makes the solution more plausible. Then, we can solve
+            \[
+            \text{minimize} \, \| x \| \\
+            \text{subject to} \, Ax = b. 
+            \]
+        </p>
+        <p>
+            In practice, we look for the fit (there is: the problem is undetermined) that is the most plausible, under this a priori criterion (our norm). This can be recasted into the Norm-Approximation problem
+            \[
+            \text{minimize} \, \| x_0 + Zu, \|.
+            \]
+            where \(x_0\) is a particular solution, and \(Z\) the matrix with as columns the basis of \(\mathrm{ker}(A)\). While computationally helpful, this also has an interpretation in production design: suppose that we need to choose the best design under some specs (linear in x). Then, we can
+            <ol>
+                <li>Find the feasible design that is the most efficient.</li>
+                <li>Find a working design \(x_0\), and then adjust it by a feasible design with null effect that, once             <span class="hover-text">added
+                    <span class="post-it">By linearity, superposition principle holds.</span>
+                </span>, makes it overall the most efficient.</li>
+            </ol>
+            <p>
+                Statistically, this has a bayesian interpretation: given a prior, to update it we only need few (assumed exact)measurements. Geometrically, Least-norm minmizes the distance of \(x\) from the origin, that is it finds the projection of \(0\) over \(\{x : Ax = b\}\).
+            </p>
+            <p>
+                Here again we can implement different penalty functions. Here are some common choices: \(\mathcal{l}_2\) is a classical and efficient choice, while \(\mathcal{l}_1\) is a sparsifier (so if we know that \(x\) is sparse, it's a great choice). Here, penalty is more about how much we <i>like</i> the penalty being small (beneficial), than how much we <i>hate</i> it being high (harmful).
+            </p>
+            <p>
+                Consider a linear system \(Ax = b\) with \(A \in \mathbb{R}^{m \times n}\) (fat, \( m \leq n \) ): a regression of a \(1000\)-component parameter, given \(300\) data points.
+                Then, there exist solutions \(x\) with exactly \(300\) nonzero entries: \(\mathcal{l}_1\) norm is a great heuristic for finding these solutions! Results from <i>compress sensing</i> show that with high probabilty the result we find is optimal - exactly \(300\) nonzero entries.
+            </p>
+        </p>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 The Licciardi Lens</p>
+    </footer>
+</body>
+</html>
