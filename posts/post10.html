@@ -28,23 +28,127 @@
     <main>
         <h2>On one-hot embedding</h2>
         <p>
-            Forced to write this because couldn't find anyone who had done it already (btw, bit pissed about losing a morning figuring this out).
+            Since I couldn't find anybody sharing this, I am forced to write about it. 
+            (Btw, bit pissed about losing a morning figuring this out.)
         </p>
-        <h3>Why and why not one-hot embedding</h3>
+        <h3>What is One-Hot Embedding</h3>
+            One-hot embedding is an embedding of categorical variables. 
+            If $X$ is a discrete (I don't like it, but it's also called "categorical") random variable on a $n$-dimensional space, we can embedd its output into an $\mathbb{R}^n$ vector, such that $\Phi(x_i) = e_i$ for all $x_i \in \mathbb{X}$. 
+            That is, the $n$-th component of the embedding tells us whether that outcome realized or not.
+
+        <h3>Use-cases: why and why not</h3>
         <p>         
-            Well, there is very simple common where we want to use this embedding: our model does not consider an intrinsic order, or no preference is expressed between the categories. This is very common: why should we say a 'dog' is 0, a 'cat' 1 and a 'mouse' 2, making the mouse preferable over the others(2>1,0)? On the other had, many situations such as the Likert Scale perfectly fit the numerical embedding.
-        </p>   
-        <p>
-            Why should we not use it? Mainly two reasons:
-            - Modellistically, we are introducing \(n\) variables with strong collinearity (that is, gibberish for variable that are linearly correlated). Actually, they are even linearly dependent:
-            \[
-            formula
-            \]
-            - Resources-wise, we are adding high-dimensionality and sparaseness in the dataset, will all the computational problems this brings.
+            First: what is preference?
+            If (simple) ordering on a set is in place, preference is equivalent to comparability: to choose \(x^{(1)}\) over \(x^{(2)}\) due to the first being larger (or smaller).
+            The key charachteristic of one-hot embedding, and the one telling the Feature Engineer whether to use it, is that the category have no intrinsic order, or equivalently no preference is expressed between the categories.
+            This is very common: for example, why should we say a 'dog' is \(0\), a 'cat' \(1\) and a 'mouse' \(2\), making the mouse "preferable" over the others (\(2>1,0\))? On the other had, many situations such as the Likert Scale perfectly fit the numerical embedding.
         </p>
+        <h3>The issues</h3>
         <p>
-            The second does not affect theoretically the goodness of the model, but the first does: we are basically learning a model where a subset of the variables is given by the others and so the k+1 parameters really are less. How can we make this linear dependence less impactful? The idea is to identify the space we are moving on, and add an optimization (over that space) that selects a single vector there with some desirable property.
+            One-hot embedding was developed by CS majors: and that's a nice way that it looks very logical, but has two BIG (overlooked) issues. The embeddings are of the type \(\mathbf{e}_i\).
+            <ul>
+                <li>The modellistical issue: we are introducing \(n\) random variables that are not stochastically independent. Actually, they are even linearly dependent: for example, we have
+                    \[
+                    \mathbf{1}^T \theta = 1.
+                    \]</li>
+                <li>The computational issue: we are adding high-dimensionality and sparaseness in the dataset; by the curse of dimensionality, this causes computational problems. I am no expert about this, so I won't go any deeper.</li>
+            </ul>
+        </p>
+        <h3>Instabilities on prediction: regularization fix</h3>
+        <p>
+            Consider this example: a random variable with as output the salary of a person and their sex. we embedd sex with one-hot embedding as no order (today) exists into male and female (sorry about that, I'm just an engineer), and try to infer salary.
+            Apart from conditional estimation, we would also like to use the information we have to produce an estimator for the centroid of the salary random variable (in spite of sex). 
+
+            One-hot embedding affects the goodness of the representation of our variable. Suppose that the value inferred from an embedding \(\mathbf{e}_i\) is given by \(\theta_i\): these are the weights of the estimator ("model").
+            An interpretation of this model, with one-hot embedding, is the one with a "conditional" fashion: with the embedding \(\mathbf{0}\) we get a base value, and then it is additively updated by \(\sum \theta_i \mathbf{e}_i\) according to new information.
+            (Why \(\mathbf{0}\) and not, say, \(\mathbf{1}\)? Because only for \(\mathbf{0}\) the additive update makes sense.)
+            
+            Now we see that there is a clear issue: our expectation on salary is *not* 0 as \(\mathbf{0}^T \theta = 0\) would suggest, but rather some centroid of the distribution. The intuitive fix would be to compute the mean of our data, use that as base inference, and then train the rest of data to fit it: we show that this is equivalent to adding a regularizer (a bias).
+
+            This does not solve the problem of linear dependence between random variables from embedding, but offers a fix to the instabilities we were *really* worried about: by choosing a base value that matches at the best of a loss function all the conditional expectations, we are basically making the weight set the smallest possible in that loss.
+
+            Morally, if we add a fixed bias parameter of 1 to the embedding (so we embedd k categorical data into k+1 euclidean space), and we minimize with the l2 norm, we see that the first weight will be the mean of the distribution. Similary, for l1 norm we get the mode. (These are assumed to be known statistical facts.) So, regularized minimization reduces instabilities and provides an estimator in no-information situations. Moreover, if we onyl have a statistical certainty of the persone being a womand, say the embedding is the PMF \(0.7,0.3\), we still can interpolate our model and get a reasonable answer out of it.
         </p> 
+        <h3>Linear dependence: drop-out fix</h3>
+        <p>
+            One-hot embeddings introduce linear dependence because the sum of all one-hot encoded variables for a categorical feature always equals 1. This introduces redundancy, which can lead to issues with certain models (such as linear regression).
+        </p>
+
+        <p><strong>Example:</strong></p>
+        <p>
+            Consider a categorical feature with three categories: A, B, and C. After one-hot encoding, the feature is represented as three binary variables:
+        </p>
+
+        <p>
+            [1, 0, 0] [0, 1, 0] [0, 0, 1]
+        </p>
+
+        <p>
+            The problem is that these variables are linearly dependent:
+        </p>
+
+        <p>
+            A + B + C = 1
+        </p>
+
+        <p>
+            This linear dependence can cause numerical instability, especially in linear models like regression, where it can result in multicollinearity.
+        </p>
+
+        <p><strong>Fix:</strong></p>
+        <p>
+            One common fix is to drop one category during encoding, which is known as dummy encoding. By doing this, the model avoids the redundancy. For example, if you drop category C, the categories A and B will be encoded as:
+        </p>
+
+        <p>
+            [1, 0] [0, 1] [0, 0]
+        </p>
+
+        <p>
+            The dropped category (C in this case) serves as the baseline, and the model compares other categories against it.
+        </p>
+
+        <h3>Stochastic dependence: alternative encodings</h3>
+        <p>
+            In addition to linear dependence, one-hot embeddings also introduce stochastic dependence. Since the one-hot encoded variables represent the same categorical variable, they are not independent random variables. For instance, knowing that one of the categories is 1 implies that all others are 0.
+        </p>
+
+        <p><strong>Example:</strong></p>
+        <p>
+            Let's revisit the earlier example with A, B, and C. Suppose the categorical variable follows a certain probability distribution, such as:
+        </p>
+
+        <p>
+            P(A) = 0.5, P(B) = 0.3, P(C) = 0.2
+        </p>
+
+        <p>
+            In this case, the random variables corresponding to one-hot encoded values of A, B, and C are stochastically dependent. If one of them equals 1, the others must be 0.
+        </p>
+
+        <p>
+            This dependence can create problems in models like Naive Bayes, which assumes that features are conditionally independent given the class. Since one-hot encoding violates this assumption, the model's performance may degrade.
+        </p>
+
+        <p><strong>Fix:</strong></p>
+        <p>
+            In situations where stochastic dependence is a problem (e.g., when using Naive Bayes), you can consider alternative embeddings. For example, target encoding or leave-one-out encoding transforms categorical variables based on the mean of the target variable for each category. This type of encoding preserves the probabilistic structure of the data without introducing stochastic dependence between features.
+        </p>
+
+        <h3>Dimensionality increase: embedding layers</h3>
+        <p>
+            Another issue with one-hot encoding is that it can significantly increase the dimensionality of the data, especially when the categorical variable has many levels. High-dimensional, sparse data can lead to overfitting and make models computationally expensive to train.
+        </p>
+
+        <p><strong>Example:</strong></p>
+        <p>
+            Consider a dataset where a categorical feature has 100 unique levels. After one-hot encoding, this feature will be represented by 100 binary variables, which significantly increases the dimensionality of the dataset.
+        </p>
+
+        <p><strong>Fix:</strong></p>
+        <p>
+            One solution is to use embedding layers (commonly used in neural networks). Instead of one-hot encoding, you represent each category by a lower-dimensional, dense vector. This reduces dimensionality and captures relationships between categories. Another fix is feature hashing, which hashes categorical values into a fixed number of bins, reducing the dimensionality at the cost of potential hash collisions.
+        </p>
     </main>
 
     <footer>
