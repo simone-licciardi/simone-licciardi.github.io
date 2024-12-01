@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thought 12</title>
+    <link rel="stylesheet" href="../styles/style.css">
+    <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>Thought 12</h1>
+        </div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="../bio.html">Bio</a></li>
+            <li><a href="../cv.html">CV</a></li>
+            <li><a href="../thoughts.html">Thoughts</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <h2>On one-hot embedding</h2>
+        <p>
+            Forced to write this because couldn't find anyone who had done it already (btw, bit pissed about losing a morning figuring this out).
+        </p>
+        <h3>Why and why not one-hot embedding</h3>
+        <p>         
+            Well, there is very simple common where we want to use this embedding: our model does not consider an intrinsic order, or no preference is expressed between the categories. This is very common: why should we say a 'dog' is 0, a 'cat' 1 and a 'mouse' 2, making the mouse preferable over the others(2>1,0)? On the other had, many situations such as the Likert Scale perfectly fit the numerical embedding.
+        </p>   
+        <p>
+            Why should we not use it? Mainly two reasons:
+            - Modellistically, we are introducing \(n\) variables with strong collinearity (that is, gibberish for variable that are linearly correlated). Actually, they are even linearly dependent:
+            \[
+            formula
+            \]
+            - Resources-wise, we are adding high-dimensionality and sparaseness in the dataset, will all the computational problems this brings.
+        </p>
+        <p>
+            The second does not affect theoretically the goodness of the model, but the first does: we are basically learning a model where a subset of the variables is given by the others and so the k+1 parameters really are less. How can we make this linear dependence less impactful? The idea is to identify the space we are moving on, and add an optimization (over that space) that selects a single vector there with some desirable property.
+        </p> 
+    </main>
+
+    <footer>
+        <p>&copy; 2024 The Licciardi Lens</p>
+    </footer>
+</body>
+</html>
