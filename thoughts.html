@@ -40,6 +40,14 @@
         <p>
             We can employ \(\mathcal{l}_1\)-norm approximation for outlier detection, provided the model is linear. Just run the regression, and compute the residuals: this will be both computationally cheap (it's an LP) and allow outliers (\(\mathcal{l}_1\) is the best convex choice for that). The largest residuals will indicate outliers.
         </p>
+        <h3>On complex analysis</h3>
+        <p>
+            I really we should really think more of complex analysis in terms of its topological properties. Look at <a href="https://mathlets.org/mathlets/complex-exponential/">what complex exponentiation does</a> with this great mathlet by MIT. A part from the graphical amusement, it really shows the point of imaginary exponentiation, to transform a linear space into a holed one, from + to *. Formally, a (continuous, so topology is conserved somehow) homeomorphism. That's also why it is impossible to invert the logarithm: the homeomorphism sends a space with algebraic structure S1 into one with strucure A1 (circle and dot respectively). That also fits the branch-like solution for the problem: we are basically taking S1 and making it A1.
+        </p>
+        <p>
+            Successive exponentiation is something no one wants to see... so difficult to deal with both analyitically (how the hell do you manage a double logarithm) and technologically (consider that in microelectronics a single exponential is considered a vertical line. Let alone 2, nested.). BUT in complex analysis, we have a very cool manner to compute them!
+            If we express numbers \(z = (\rho, \theta)\), we have that \(e^{e^z}= e^{e^{(\rho,\theta)}} = e^{(e^\rho,\theta)} = (e^{e^\rho},\theta)\). So bottom line one can just manage the module and conserve the argument. This is especially useful if the exponent is already in polar coordinates.
+        </p>
     </main>
 
     <footer>
