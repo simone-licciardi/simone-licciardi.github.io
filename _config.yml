@@ -1,0 +1,8 @@
+source:      .
+destination: ./_site
+includes:    ./_includes
+baseurl: /simone-licciardi
+
+collections:
+  projects:
+    output: true
