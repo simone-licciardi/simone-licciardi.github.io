@@ -201,3 +201,46 @@ h4 {
   max-height: 180px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
+
+.blog-link-container {
+  display: inline;
+}
+.blog-link {
+  color: #1EAEDB;
+  text-decoration: underline;
+  font-weight: inherit;
+  font-family: inherit;
+  margin-left: 2px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.blog-link:hover {
+  color: #0FA0CE;
+  text-decoration: underline;
+}
+.blog-post-page {
+  width: 90%;
+  max-width: 800px;
+  margin: 60px auto 0 auto;
+  padding: 2em 1.5em 2em 1.5em;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.blog-date {
+  color: #888;
+  font-size: 1em;
+  margin-bottom: 1.2em;
+}
+.back-link {
+  display: inline-block;
+  margin: 2em 0 1em 0;
+  opacity: 0.7;
+  text-decoration: underline;
+  color: #0074D9;
+  font-size: 1em;
+}
+.back-link:hover {
+  opacity: 1;
+  color: #005fa3;
+}
