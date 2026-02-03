@@ -20,7 +20,7 @@
 ## General information
 * **Team** : [Dr. Roger Kaeppeli](mailto:roger.kaeppeli@sam.math.ethz.ch>),
              [Dr. Federico Gatti](mailto:federico.gatti@math.ethz.ch>),
-             [Carla López Zurita](mailto:calopez@student.ethz.ch),
+             [Carla Lopez Zurita](mailto:calopez@student.ethz.ch),
              [Alexander Pietak](mailto:apietak@student.ethz.ch),
              [Timo Schwab](mailto:tischwab@student.ethz.ch)
              and
